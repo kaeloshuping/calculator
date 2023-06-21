@@ -23,6 +23,24 @@ function changeSymbol() {
     });
 };
 
+function changeFirstNumber() {
+    numbersButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            firstNumber = Number(button.innerHTML);
+            console.log(firstNumber);
+        });
+    });
+};
+
+function changeSecondNumber() {
+    numbersButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            consoleNumber = Number(button.innerHTML);
+            console.log(secondNumber);
+        });
+    });
+};
+
 function process(firstDigit, mathSymbol, secondDigit) {
     console.log(mathSymbol);
     if (mathSymbol === "+") {
@@ -50,4 +68,6 @@ let symbol = ""
 let mathButtons = document.querySelectorAll(".basic-math-operations");
 let numbersButtons = document.querySelectorAll(".number");
 
-changeSymbol();
+// changeSymbol();
+changeFirstNumber();
+changeSecondNumber()
