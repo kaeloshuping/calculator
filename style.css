@@ -16,6 +16,19 @@
     padding: 10px;
 }
 
+#display-main {
+    height: 55%;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+#display-sub {
+    height: 35%;
+    display: flex;
+    justify-content: flex-end;
+}
+
 #main-btn-container {
     display: flex;
     flex-direction: column;
