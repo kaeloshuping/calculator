@@ -67,6 +67,7 @@ function updateDisplay() {
         displayMain.style.fontSize = "50px";
         displayMain.style.alignSelf = "end"
         displaySub.innerHTML = ""
+        equalIsClicked = false;
     } else {
         showNumbers();
     };
@@ -86,6 +87,8 @@ let displayContainer = document.getElementById("display");
 let displayMain = document.getElementById("display-main");
 let displaySub = document.getElementById("display-sub");
 
+let allClear = document.getElementById("all-clear");
+
 // this event listener listens for a click event on one of the math operators buttons 
 // and updates the symbol varibale accordingly
 mathOperators.forEach((button) => {
@@ -97,8 +100,11 @@ mathOperators.forEach((button) => {
             firstNumber = process(firstNumber, operator, secondNumber);
             operator = changeSymbol(button);
             secondNumber = "";
-            console.log(firstNumber);
-            console.log(operator);
+            displayMain.innerHTML = firstNumber + operator;
+            displayMain.style.color = "white";
+            displayMain.style.fontSize = "50px";
+            displaySub.innerHTML = "";
+            // updateDisplay();
         };
     });
 });
@@ -120,3 +126,11 @@ equalSign.addEventListener("click", () => {
     firstNumber = "";
     secondNumber = "";
 });
+
+allClear.addEventListener("click", () => {
+    displayMain.innerHTML = "";
+    displaySub.innerHTML = "";
+    operator = "";
+    firstNumber = "";
+    secondNumber = "";
+})
