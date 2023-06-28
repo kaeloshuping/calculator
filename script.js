@@ -29,10 +29,10 @@ function changeSymbol(button) {
 function getNumbers(operator, button) {
     if (operator === "") {
         firstNumber += button.innerHTML;
-        console.log(firstNumber);
+        updateDisplay();
     } else {
         secondNumber += button.innerHTML;
-        console.log(secondNumber);
+        updateDisplay();
     };
 };
 
@@ -52,15 +52,39 @@ function process(firstDigit, operator, secondDigit) {
     };
 };
 
+function showNumbers() {
+    let clickedButtons = ""
+    clickedButtons += firstNumber + operator + secondNumber;
+    displaySub.innerHTML = clickedButtons;
+    displaySub.style.color = "white";
+    displaySub.style.fontSize = "30px";
+};
+
+function updateDisplay() {
+    if (equalIsClicked) {
+        displayMain.innerHTML = process(firstNumber, operator, secondNumber);
+        displayMain.style.color = "white";
+        displayMain.style.fontSize = "50px";
+        displayMain.style.alignSelf = "end"
+        displaySub.innerHTML = ""
+    } else {
+        showNumbers();
+    };
+};
+
 let numbers = document.querySelectorAll(".number");
 let mathOperators = document.querySelectorAll(".basic-math-operations");
 let equalSign = document.getElementById("equal-sign");
+let equalIsClicked = false;
 
 let operator = "";
-let symbolIsChanged = false;
 
 let firstNumber = "";
 let secondNumber = "";
+
+let displayContainer = document.getElementById("display");
+let displayMain = document.getElementById("display-main");
+let displaySub = document.getElementById("display-sub");
 
 // this event listener listens for a click event on one of the math operators buttons 
 // and updates the symbol varibale accordingly
@@ -68,7 +92,7 @@ mathOperators.forEach((button) => {
     button.addEventListener("click", () => {
         if (operator === "") {
             operator = changeSymbol(button);
-            console.log(operator);
+            updateDisplay();
         } else {
             firstNumber = process(firstNumber, operator, secondNumber);
             operator = changeSymbol(button);
@@ -90,7 +114,8 @@ numbers.forEach((button) => {
 // this listener listens for a "click" event on the equal sign and processes the 
 // calculations while resetting the first and second number for a fresh restart
 equalSign.addEventListener("click", () => {
-    console.log(process(firstNumber, operator, secondNumber));
+    equalIsClicked = true;
+    updateDisplay();
     operator = "";
     firstNumber = "";
     secondNumber = "";
