@@ -56,6 +56,7 @@ function showNumbers() {
     let clickedButtons = ""
     clickedButtons += firstNumber + operator + secondNumber;
     displaySub.innerHTML = clickedButtons;
+    return clickedButtons;
 };
 
 function updateDisplay() {
@@ -78,6 +79,7 @@ let mathOperators = document.querySelectorAll(".basic-math-operations");
 let equalSign = document.getElementById("equal-sign");
 let equalIsClicked = false;
 
+let operators = ["+", "-", "*", "/"];
 let operator = "";
 let operatorIsClicked = false;
 
@@ -89,6 +91,9 @@ let displayMain = document.getElementById("display-main");
 let displaySub = document.getElementById("display-sub");
 
 let allClear = document.getElementById("all-clear");
+let clearCharacter = document.getElementById("clear-character");
+
+let lastCharacter = -1
 
 // this event listener listens for a click event on one of the math operators buttons 
 // and updates the symbol varibale accordingly
@@ -103,7 +108,7 @@ mathOperators.forEach((button) => {
             operator = changeSymbol(button);
             secondNumber = "";
             displayMain.innerHTML = firstNumber + operator;
-            displaySub.innerHTML = "";
+            displaySub.innerHTML = secondNumber;
             operatorIsClicked = true;
             // updateDisplay();
         };
@@ -134,4 +139,37 @@ allClear.addEventListener("click", () => {
     operator = "";
     firstNumber = "";
     secondNumber = "";
-})
+});
+
+clearCharacter.addEventListener("click", () => {
+    let characters = showNumbers();
+    erase(characters, operatorIsClicked);
+});
+
+function erase(string, operatorCondition) {
+    let stringArray = string.split("");
+    // console.log(stringArray[stringArray.length - 1]);
+    // console.log(operators.includes(stringArray[stringArray.length - 1]))
+    if (operators.includes(stringArray[stringArray.length - 1])) {
+        displaySub.innerHTML = stringArray.slice(0, lastCharacter).join("");
+        operator = "";
+        operatorIsClicked = false;
+        lastCharacter -= 1;
+    }
+    else if (operatorCondition) {
+        if (displayMain.innerHTML != "") {
+            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            displaySub.innerHTML = secondNumber;
+            lastCharacter -= 1;
+        } else {
+            displaySub.innerHTML  = stringArray.slice(0, lastCharacter).join("");
+            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            lastCharacter -= 1;
+        }
+    } else {
+        firstNumber = stringArray.slice(0, lastCharacter).join("");
+        displaySub.innerHTML = firstNumber;
+        lastCharacter -= 1;
+    };
+    lastCharacter = -1
+};
