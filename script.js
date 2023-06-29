@@ -56,19 +56,19 @@ function showNumbers() {
     let clickedButtons = ""
     clickedButtons += firstNumber + operator + secondNumber;
     displaySub.innerHTML = clickedButtons;
-    displaySub.style.color = "white";
-    displaySub.style.fontSize = "30px";
 };
 
 function updateDisplay() {
     if (equalIsClicked) {
         displayMain.innerHTML = process(firstNumber, operator, secondNumber);
-        displayMain.style.color = "white";
-        displayMain.style.fontSize = "50px";
-        displayMain.style.alignSelf = "end"
-        displaySub.innerHTML = ""
+        displayMain.style.alignSelf = "end";
+        displaySub.innerHTML = "";
         equalIsClicked = false;
-    } else {
+    }
+    else if (displayMain.innerHTML != "") {
+        displaySub.innerHTML = secondNumber;
+    }
+    else {
         showNumbers();
     };
 };
@@ -79,6 +79,7 @@ let equalSign = document.getElementById("equal-sign");
 let equalIsClicked = false;
 
 let operator = "";
+let operatorIsClicked = false;
 
 let firstNumber = "";
 let secondNumber = "";
@@ -96,14 +97,14 @@ mathOperators.forEach((button) => {
         if (operator === "") {
             operator = changeSymbol(button);
             updateDisplay();
+            operatorIsClicked = true;
         } else {
             firstNumber = process(firstNumber, operator, secondNumber);
             operator = changeSymbol(button);
             secondNumber = "";
             displayMain.innerHTML = firstNumber + operator;
-            displayMain.style.color = "white";
-            displayMain.style.fontSize = "50px";
             displaySub.innerHTML = "";
+            operatorIsClicked = true;
             // updateDisplay();
         };
     });
