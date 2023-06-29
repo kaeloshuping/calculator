@@ -21,12 +21,16 @@
     display: flex;
     justify-content: flex-end;
     padding-top: 10px;
+    color: white;
+    font-size: 50px;
 }
 
 #display-sub {
     height: 35%;
     display: flex;
     justify-content: flex-end;
+    color: white;
+    font-size: 30px;
 }
 
 #main-btn-container {
