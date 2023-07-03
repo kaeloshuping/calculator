@@ -1,28 +1,42 @@
 // this function takes 2 numbers as arguments and return the addition thereof
 function add(num1, num2) {
-    return Number((Number(num1) + Number(num2)).toFixed(7)); 
+    result = (Number(num1) + Number(num2));
+    return roundOff(result); 
 };
 
 // this function takes 2 numbers as arguments and return the subtraction thereof
 function subtract(num1, num2) {
-    return Number((Number(num1) - Number(num2)).toFixed(7)); 
+    result = Number(num1) - Number(num2);
+    return roundOff(result); 
 };
 
 // this function takes 2 numbers as arguments and return the multiplication thereof
 function multiply(num1, num2) {
-    return Number((Number(num1) * Number(num2)).toFixed(7)); 
+    result = Number(num1) * Number(num2);
+    return roundOff(result); 
 };
 
 // this function takes 2 numbers as arguments and return the division thereof
 function divide(num1, num2) {
-    console.log(typeof(Number((Number(num1) / Number(num2)).toFixed(7))))
-    return Number((Number(num1) / Number(num2)).toFixed(7)); 
+    result = Number(num1) / Number(num2);
+    console.log(roundOff(result));
+    return roundOff(result); 
 };
 
 // this function takes a button as a parameter and changes the math "symbol" to the selected symbol
 function changeSymbol(button) {
+   if (button.innerHTML === "÷") {
+    operator = "/";
+    return operator;
+   } 
+   else if (button.innerHTML === "x") {
+    operator = "*";
+    return operator;
+   }
+   else {
     operator = button.innerHTML;
     return operator;
+   };
 };
 
 // thish function takes a button and an operator as parameters and depending the condition 
@@ -54,10 +68,26 @@ function process(firstDigit, operator, secondDigit) {
 };
 
 function showNumbers() {
+    console.log(operator);
     let clickedButtons = ""
-    clickedButtons += firstNumber + operator + secondNumber;
-    displaySub.innerHTML = clickedButtons;
-    return clickedButtons;
+    if (operator === "/") {
+        let operatorToshow = "÷";
+        clickedButtons += firstNumber + operatorToshow + secondNumber;
+        displaySub.innerHTML = clickedButtons;
+        return clickedButtons;
+    }
+    else if (operator === "*") {
+        let operatorToshow = "x";
+        clickedButtons += firstNumber + operatorToshow + secondNumber;
+        displaySub.innerHTML = clickedButtons;
+        return clickedButtons;
+    }
+    else {
+        let operatorToshow = operator;
+        clickedButtons += firstNumber + operatorToshow + secondNumber;
+        displaySub.innerHTML = clickedButtons;
+        return clickedButtons;
+    };
 };
 
 function updateDisplay() {
@@ -173,4 +203,8 @@ function erase(string, operatorCondition) {
         lastCharacter -= 1;
     };
     lastCharacter = -1
+};
+
+function roundOff(number) {
+    return Math.round(number* 100000) / 100000;
 };
