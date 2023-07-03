@@ -1,21 +1,22 @@
 // this function takes 2 numbers as arguments and return the addition thereof
 function add(num1, num2) {
-    return Number(num1) + Number(num2); 
+    return Number((Number(num1) + Number(num2)).toFixed(7)); 
 };
 
 // this function takes 2 numbers as arguments and return the subtraction thereof
 function subtract(num1, num2) {
-    return Number(num1) - Number(num2); 
+    return Number((Number(num1) - Number(num2)).toFixed(7)); 
 };
 
 // this function takes 2 numbers as arguments and return the multiplication thereof
 function multiply(num1, num2) {
-    return Number(num1) * Number(num2); 
+    return Number((Number(num1) * Number(num2)).toFixed(7)); 
 };
 
 // this function takes 2 numbers as arguments and return the division thereof
 function divide(num1, num2) {
-    return Number(num1) / Number(num2); 
+    console.log(typeof(Number((Number(num1) / Number(num2)).toFixed(7))))
+    return Number((Number(num1) / Number(num2)).toFixed(7)); 
 };
 
 // this function takes a button as a parameter and changes the math "symbol" to the selected symbol
