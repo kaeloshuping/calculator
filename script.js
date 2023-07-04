@@ -19,7 +19,6 @@ function multiply(num1, num2) {
 // this function takes 2 numbers as arguments and return the division thereof
 function divide(num1, num2) {
     result = Number(num1) / Number(num2);
-    console.log(roundOff(result));
     return roundOff(result); 
 };
 
@@ -67,29 +66,15 @@ function process(firstDigit, operator, secondDigit) {
     };
 };
 
+// this function gets the characters from the clicked buttons
 function showNumbers() {
-    console.log(operator);
     let clickedButtons = ""
-    if (operator === "/") {
-        let operatorToshow = "÷";
-        clickedButtons += firstNumber + operatorToshow + secondNumber;
-        displaySub.innerHTML = clickedButtons;
-        return clickedButtons;
-    }
-    else if (operator === "*") {
-        let operatorToshow = "x";
-        clickedButtons += firstNumber + operatorToshow + secondNumber;
-        displaySub.innerHTML = clickedButtons;
-        return clickedButtons;
-    }
-    else {
-        let operatorToshow = operator;
-        clickedButtons += firstNumber + operatorToshow + secondNumber;
-        displaySub.innerHTML = clickedButtons;
-        return clickedButtons;
-    };
+    clickedButtons += firstNumber + checkOperator(operator) + secondNumber;
+    displaySub.innerHTML = clickedButtons;
+    return clickedButtons;
 };
 
+// this function updates the display
 function updateDisplay() {
     if (equalIsClicked) {
         displayMain.innerHTML = process(firstNumber, operator, secondNumber);
@@ -105,10 +90,58 @@ function updateDisplay() {
     };
 };
 
+// this function takes a string and the condition of the operator and erases characters as needed
+function erase(string, operatorCondition) {
+    let stringArray = string.split("");
+    if (operators.includes(stringArray[stringArray.length - 1])) {
+        displaySub.innerHTML = stringArray.slice(0, lastCharacter).join("");
+        operator = "";
+        operatorIsClicked = false;
+        lastCharacter -= 1;
+    }
+    else if (operatorCondition) {
+        if (displayMain.innerHTML != "") {
+            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            displaySub.innerHTML = secondNumber;
+            lastCharacter -= 1;
+        } else {
+            displaySub.innerHTML  = stringArray.slice(0, lastCharacter).join("");
+            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            lastCharacter -= 1;
+        }
+    } else {
+        firstNumber = stringArray.slice(0, lastCharacter).join("");
+        displaySub.innerHTML = firstNumber;
+        lastCharacter -= 1;
+    };
+    lastCharacter = -1
+};
+
+// this function rounds numbers off to 5 decimal places
+function roundOff(number) {
+    return Math.round(number* 100000) / 100000;
+};
+
+// this function checks the operator and returns value to update on display
+function checkOperator(operator) {
+    if (operator === "/") {
+        return "÷";
+    }
+    else if (operator === "*") {
+        return "x";
+    }
+    else {
+        return operator;
+    };
+};
+
 let numbers = document.querySelectorAll(".number");
 let mathOperators = document.querySelectorAll(".basic-math-operations");
 let equalSign = document.getElementById("equal-sign");
 let equalIsClicked = false;
+
+let period = document.getElementById("period");
+let periodIsClicked = false;
 
 let operators = ["+", "-", "*", "/"];
 let operator = "";
@@ -138,10 +171,9 @@ mathOperators.forEach((button) => {
             firstNumber = process(firstNumber, operator, secondNumber);
             operator = changeSymbol(button);
             secondNumber = "";
-            displayMain.innerHTML = firstNumber + operator;
+            displayMain.innerHTML = firstNumber + checkOperator(operator);
             displaySub.innerHTML = secondNumber;
             operatorIsClicked = true;
-            // updateDisplay();
         };
     });
 });
@@ -177,34 +209,14 @@ clearCharacter.addEventListener("click", () => {
     erase(characters, operatorIsClicked);
 });
 
-function erase(string, operatorCondition) {
-    let stringArray = string.split("");
-    // console.log(stringArray[stringArray.length - 1]);
-    // console.log(operators.includes(stringArray[stringArray.length - 1]))
-    if (operators.includes(stringArray[stringArray.length - 1])) {
-        displaySub.innerHTML = stringArray.slice(0, lastCharacter).join("");
-        operator = "";
-        operatorIsClicked = false;
-        lastCharacter -= 1;
-    }
-    else if (operatorCondition) {
-        if (displayMain.innerHTML != "") {
-            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
-            displaySub.innerHTML = secondNumber;
-            lastCharacter -= 1;
-        } else {
-            displaySub.innerHTML  = stringArray.slice(0, lastCharacter).join("");
-            secondNumber = secondNumber.slice(0, secondNumber.length - 1);
-            lastCharacter -= 1;
-        }
+period.addEventListener("click", () => {
+    if (operator === "") {
+        firstNumber += period.innerHTML;
+        updateDisplay();
+        console.log(firstNumber);
     } else {
-        firstNumber = stringArray.slice(0, lastCharacter).join("");
-        displaySub.innerHTML = firstNumber;
-        lastCharacter -= 1;
+        secondNumber += period.innerHTML;
+        updateDisplay();
+        console.log(secondNumber);
     };
-    lastCharacter = -1
-};
-
-function roundOff(number) {
-    return Math.round(number* 100000) / 100000;
-};
+});
