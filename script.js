@@ -69,7 +69,12 @@ function process(firstDigit, operator, secondDigit) {
 // this function gets the characters from the clicked buttons
 function showNumbers() {
     let clickedButtons = ""
-    clickedButtons += firstNumber + checkOperator(operator) + secondNumber;
+    if (percentageIsClicked) {
+        clickedButtons += firstNumber + checkOperator(operator) + secondNumber + percentage.innerHTML;
+        percentageIsClicked = false;
+    } else {
+        clickedButtons += firstNumber + checkOperator(operator) + secondNumber;
+    }
     displaySub.innerHTML = clickedButtons;
     return clickedButtons;
 };
@@ -166,6 +171,9 @@ let clearCharacter = document.getElementById("clear-character");
 
 let lastCharacter = -1
 
+let percentage = document.getElementById("percentage");
+let percentageIsClicked = false;
+
 // this event listener listens for a click event on one of the math operators buttons 
 // and updates the symbol varibale accordingly
 mathOperators.forEach((button) => {
@@ -225,5 +233,27 @@ period.addEventListener("click", () => {
         secondNumber += period.innerHTML;
         updateDisplay();
         console.log(secondNumber);
+    };
+});
+
+function calculatePercentage(value, totalValue) {
+    if (operator === "") {
+        let totalValue = 100;
+        // console.log(value / totalValue);
+        return value / totalValue;
+    } else {
+        return (totalValue / 100) * value
+    }
+};
+
+percentage.addEventListener("click", () => {
+    if (operator === "") {
+        calculatePercentage(firstNumber);
+        percentageIsClicked = true;
+        updateDisplay();
+    } else {
+        calculatePercentage(secondNumber, firstNumber);
+        percentageIsClicked = true;
+        updateDisplay();
     };
 });
