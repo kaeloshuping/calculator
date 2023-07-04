@@ -1,8 +1,12 @@
+body {
+    background-color: rgb(41, 42, 43);
+}
+
 #main-container {
     width: 300px;
     height: 500px;
     border-radius: 10px;
-    background-color: red;
+    background-color: rgb(134, 128, 128);
     padding: 10px;
     margin: 0 auto;
 }
@@ -12,7 +16,7 @@
     height: 25%;
     margin: 0 auto;
     border-radius: 10px;
-    background-color: blue;
+    background-color: rgb(219, 219, 221);
     padding: 10px;
 }
 
@@ -21,7 +25,7 @@
     display: flex;
     justify-content: flex-end;
     padding-top: 10px;
-    color: white;
+    color: rgb(5, 5, 5);
     font-size: 40px;
 }
 
@@ -29,7 +33,7 @@
     height: 35%;
     display: flex;
     justify-content: flex-end;
-    color: white;
+    color: rgb(5, 5, 5);
     font-size: 30px;
 }
 
@@ -40,7 +44,7 @@
     justify-content: space-evenly;
     width: 275px;
     height: 65%;
-    background-color: blueviolet;
+    background-color: rgb(44, 32, 212);
     padding: 10px;
     border-radius: 10px;
     margin: 10px auto 0 auto;
@@ -70,7 +74,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    width: 210px;
+    width: 200px;
     height: 100%;
     margin: auto;
     padding-top: 5px;
