@@ -93,7 +93,8 @@ function updateDisplay() {
 // this function takes a string and the condition of the operator and erases characters as needed
 function erase(string, operatorCondition) {
     let stringArray = string.split("");
-    if (operators.includes(stringArray[stringArray.length - 1])) {
+    let symbol = stringArray[stringArray.length - 1];
+    if (symbols.includes(symbol)) {
         displaySub.innerHTML = stringArray.slice(0, lastCharacter).join("");
         operator = "";
         operatorIsClicked = false;
@@ -102,15 +103,21 @@ function erase(string, operatorCondition) {
     else if (operatorCondition) {
         if (displayMain.innerHTML != "") {
             secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            console.log(secondNumber);
             displaySub.innerHTML = secondNumber;
             lastCharacter -= 1;
         } else {
             displaySub.innerHTML  = stringArray.slice(0, lastCharacter).join("");
             secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+            if (secondNumber === "") {
+                operatorIsClicked = false;
+            }
+            console.log(secondNumber);
             lastCharacter -= 1;
         }
     } else {
         firstNumber = stringArray.slice(0, lastCharacter).join("");
+        console.log(firstNumber);
         displaySub.innerHTML = firstNumber;
         lastCharacter -= 1;
     };
@@ -143,7 +150,7 @@ let equalIsClicked = false;
 let period = document.getElementById("period");
 let periodIsClicked = false;
 
-let operators = ["+", "-", "*", "/"];
+let symbols = ["+", "-", "x", "÷"];
 let operator = "";
 let operatorIsClicked = false;
 
