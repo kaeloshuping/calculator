@@ -69,13 +69,16 @@ function process(firstDigit, operator, secondDigit) {
 // this function gets the characters from the clicked buttons
 function showNumbers() {
     let clickedButtons = ""
+    console.log(percentageIsClicked);
     if (percentageIsClicked) {
         clickedButtons += firstNumber + checkOperator(operator) + secondNumber + percentage.innerHTML;
+        displaySub.innerHTML = clickedButtons;
         percentageIsClicked = false;
     } else {
         clickedButtons += firstNumber + checkOperator(operator) + secondNumber;
+        displaySub.innerHTML = clickedButtons;
     }
-    displaySub.innerHTML = clickedButtons;
+    // displaySub.innerHTML = clickedButtons;
     return clickedButtons;
 };
 
@@ -147,6 +150,18 @@ function checkOperator(operator) {
     };
 };
 
+// this function takes 2 or 1 number as a parameter and returns the percentage thereof
+function calculatePercentage(value, totalValue) {
+    if (operator === "") {
+        let totalValue = 100;
+        displaySub.innerHTML = value + "%";
+        return value / totalValue;
+    } else {
+        displaySub.innerHTML = totalValue + operator + value + "%";
+        return (totalValue / 100) * value
+    }
+};
+
 let numbers = document.querySelectorAll(".number");
 let mathOperators = document.querySelectorAll(".basic-math-operations");
 let equalSign = document.getElementById("equal-sign");
@@ -204,13 +219,23 @@ numbers.forEach((button) => {
 // this listener listens for a "click" event on the equal sign and processes the 
 // calculations while resetting the first and second number for a fresh restart
 equalSign.addEventListener("click", () => {
-    equalIsClicked = true;
-    updateDisplay();
-    operator = "";
-    firstNumber = "";
-    secondNumber = "";
+    if (operatorIsClicked && percentageIsClicked) {
+        equalIsClicked = true;
+        secondNumber = calculatePercentage(secondNumber, firstNumber);
+        updateDisplay();
+        operator = "";
+        firstNumber = "";
+        secondNumber = "";
+    } else {
+        equalIsClicked = true;
+        updateDisplay();
+        operator = "";
+        firstNumber = "";
+        secondNumber = "";
+    }
 });
 
+// this listener listen for when the AC button is clicked and resets all values
 allClear.addEventListener("click", () => {
     displayMain.innerHTML = "";
     displaySub.innerHTML = "";
@@ -219,11 +244,13 @@ allClear.addEventListener("click", () => {
     secondNumber = "";
 });
 
+// this listener clears single characters from the displaySub when clicked
 clearCharacter.addEventListener("click", () => {
     let characters = showNumbers();
     erase(characters, operatorIsClicked);
 });
 
+// this event listener adds a period to calculation for decimal representation
 period.addEventListener("click", () => {
     if (operator === "") {
         firstNumber += period.innerHTML;
@@ -236,24 +263,18 @@ period.addEventListener("click", () => {
     };
 });
 
-function calculatePercentage(value, totalValue) {
-    if (operator === "") {
-        let totalValue = 100;
-        // console.log(value / totalValue);
-        return value / totalValue;
-    } else {
-        return (totalValue / 100) * value
-    }
-};
-
+// this event listener calculates the percentage of a given number or 2 numbers 
+// when the modulo is clicked
 percentage.addEventListener("click", () => {
     if (operator === "") {
-        calculatePercentage(firstNumber);
+        result = calculatePercentage(firstNumber);
         percentageIsClicked = true;
-        updateDisplay();
+        // updateDisplay();
+        displayMain.innerHTML = result;
     } else {
-        calculatePercentage(secondNumber, firstNumber);
+        result = calculatePercentage(secondNumber, firstNumber);
         percentageIsClicked = true;
-        updateDisplay();
+        // updateDisplay();
+        displaySub.innerHTML = firstNumber + operator + secondNumber + "%";
     };
 });
