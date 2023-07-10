@@ -69,7 +69,6 @@ function process(firstDigit, operator, secondDigit) {
 // this function gets the characters from the clicked buttons
 function showNumbers() {
     let clickedButtons = ""
-    console.log(percentageIsClicked);
     if (percentageIsClicked) {
         clickedButtons += firstNumber + checkOperator(operator) + secondNumber + percentage.innerHTML;
         displaySub.innerHTML = clickedButtons;
@@ -111,8 +110,8 @@ function erase(string, operatorCondition) {
     else if (operatorCondition) {
         if (displayMain.innerHTML != "") {
             secondNumber = secondNumber.slice(0, secondNumber.length - 1);
-            console.log(secondNumber);
             displaySub.innerHTML = secondNumber;
+
             lastCharacter -= 1;
         } else {
             displaySub.innerHTML  = stringArray.slice(0, lastCharacter).join("");
@@ -120,12 +119,10 @@ function erase(string, operatorCondition) {
             if (secondNumber === "") {
                 operatorIsClicked = false;
             }
-            console.log(secondNumber);
             lastCharacter -= 1;
         }
     } else {
         firstNumber = stringArray.slice(0, lastCharacter).join("");
-        console.log(firstNumber);
         displaySub.innerHTML = firstNumber;
         lastCharacter -= 1;
     };
@@ -162,13 +159,24 @@ function calculatePercentage(value, totalValue) {
     }
 };
 
+function handlePeriodClick() {
+    if (operator === "") {
+        firstNumber += period.innerHTML;
+        updateDisplay();
+        period.removeEventListener("click", handlePeriodClick);
+    } else {
+        secondNumber += period.innerHTML;
+        updateDisplay();
+        period.removeEventListener("click", handlePeriodClick);
+    };
+};
+
 let numbers = document.querySelectorAll(".number");
 let mathOperators = document.querySelectorAll(".basic-math-operations");
 let equalSign = document.getElementById("equal-sign");
 let equalIsClicked = false;
 
 let period = document.getElementById("period");
-let periodIsClicked = false;
 
 let symbols = ["+", "-", "x", "÷"];
 let operator = "";
@@ -197,6 +205,7 @@ mathOperators.forEach((button) => {
             operator = changeSymbol(button);
             updateDisplay();
             operatorIsClicked = true;
+            period.addEventListener("click", handlePeriodClick);
         } else {
             firstNumber = process(firstNumber, operator, secondNumber);
             operator = changeSymbol(button);
@@ -204,6 +213,7 @@ mathOperators.forEach((button) => {
             displayMain.innerHTML = firstNumber + checkOperator(operator);
             displaySub.innerHTML = secondNumber;
             operatorIsClicked = true;
+            period.addEventListener("click", handlePeriodClick);
         };
     });
 });
@@ -226,13 +236,15 @@ equalSign.addEventListener("click", () => {
         operator = "";
         firstNumber = "";
         secondNumber = "";
+        period.addEventListener("click", handlePeriodClick);
     } else {
         equalIsClicked = true;
         updateDisplay();
         operator = "";
         firstNumber = "";
         secondNumber = "";
-    }
+        period.addEventListener("click", handlePeriodClick);
+    };
 });
 
 // this listener listen for when the AC button is clicked and resets all values
@@ -242,6 +254,7 @@ allClear.addEventListener("click", () => {
     operator = "";
     firstNumber = "";
     secondNumber = "";
+    periodIsClicked = false;
 });
 
 // this listener clears single characters from the displaySub when clicked
@@ -251,17 +264,9 @@ clearCharacter.addEventListener("click", () => {
 });
 
 // this event listener adds a period to calculation for decimal representation
-period.addEventListener("click", () => {
-    if (operator === "") {
-        firstNumber += period.innerHTML;
-        updateDisplay();
-        console.log(firstNumber);
-    } else {
-        secondNumber += period.innerHTML;
-        updateDisplay();
-        console.log(secondNumber);
-    };
-});
+period.addEventListener("click", handlePeriodClick);
+
+
 
 // this event listener calculates the percentage of a given number or 2 numbers 
 // when the modulo is clicked
